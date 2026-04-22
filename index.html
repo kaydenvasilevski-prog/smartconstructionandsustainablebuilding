@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BuildFuture | Smart Construction & Sustainable Buildings</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #2d6a4f;
+    --green-light: #52b788;
+    --green-pale: #d8f3dc;
+    --earth: #a07850;
+    --earth-light: #d4a96a;
+    --sky: #1b4965;
+    --sky-light: #5fa8d3;
+    --cream: #f8f4ed;
+    --dark: #1a1a2e;
+    --text: #2c2c3a;
+    --text-muted: #6b6b80;
+    --white: #ffffff;
+    --card-bg: #ffffff;
+    --border: rgba(45,106,79,0.15);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(248,244,237,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.3rem;
+    color: var(--green);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .nav-logo span { color: var(--earth); }
+  .nav-links { display: flex; gap: 0; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: var(--text);
+    font-size: 0.85rem; font-weight: 500;
+    padding: 6px 14px; border-radius: 20px;
+    transition: all 0.2s;
+  }
+  .nav-links a:hover { background: var(--green-pale); color: var(--green); }
+
+  /* HERO */
+  #home {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0d2818 0%, #1b4532 40%, #1b4965 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; padding-top: 64px;
+  }
+  .hero-grid {
+    position: absolute; inset: 0; opacity: 0.07;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-orb {
+    position: absolute; border-radius: 50%;
+    filter: blur(80px); opacity: 0.25;
+  }
+  .orb1 { width: 500px; height: 500px; background: var(--green-light); top: -100px; right: -100px; }
+  .orb2 { width: 400px; height: 400px; background: var(--sky-light); bottom: -50px; left: -80px; }
+  .orb3 { width: 300px; height: 300px; background: var(--earth-light); top: 50%; left: 50%; transform: translate(-50%,-50%); }
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center; max-width: 800px; padding: 0 5%;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(82,183,136,0.2); border: 1px solid rgba(82,183,136,0.4);
+    color: var(--green-light); padding: 6px 16px; border-radius: 20px;
+    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.05em;
+    margin-bottom: 24px; text-transform: uppercase;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800; line-height: 1.05;
+    color: var(--white); margin-bottom: 24px;
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+  .hero-title .accent { color: var(--green-light); }
+  .hero-title .accent2 { color: var(--earth-light); }
+  .hero-sub {
+    font-size: 1.1rem; color: rgba(255,255,255,0.7);
+    line-height: 1.7; max-width: 580px; margin: 0 auto 40px;
+    font-weight: 300;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .hero-ctas {
+    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.45s ease both;
+  }
+  .btn-primary {
+    background: var(--green-light); color: var(--dark);
+    padding: 12px 28px; border-radius: 6px;
+    font-weight: 600; font-size: 0.9rem;
+    text-decoration: none; transition: all 0.2s;
+    border: none; cursor: pointer;
+  }
+  .btn-primary:hover { background: #6fcf97; transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--white);
+    border: 1px solid rgba(255,255,255,0.35);
+    padding: 12px 28px; border-radius: 6px;
+    font-weight: 500; font-size: 0.9rem;
+    text-decoration: none; transition: all 0.2s;
+  }
+  .btn-outline:hover { background: rgba(255,255,255,0.1); }
+  .hero-stats {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 48px; z-index: 2;
+    animation: fadeUp 0.8s 0.6s ease both;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800;
+    color: var(--green-light);
+  }
+  .stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); letter-spacing: 0.05em; }
+
+  /* SECTIONS */
+  section { padding: 80px 5%; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--green);
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700; color: var(--dark); line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .section-intro {
+    color: var(--text-muted); font-size: 1rem; line-height: 1.7;
+    max-width: 640px; margin-bottom: 48px;
+  }
+  .section-header { max-width: 1200px; margin: 0 auto; }
+
+  /* ABOUT / OVERVIEW */
+  #about { background: var(--white); }
+  .about-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+  }
+  .about-visual {
+    background: linear-gradient(135deg, var(--green) 0%, var(--sky) 100%);
+    border-radius: 16px; padding: 48px 40px;
+    color: white; position: relative; overflow: hidden;
+  }
+  .about-visual::before {
+    content: '';
+    position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+  }
+  .about-visual h3 {
+    font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .about-visual p { opacity: 0.85; line-height: 1.7; font-size: 0.95rem; }
+  .pill-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .pill {
+    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+    color: white; padding: 4px 14px; border-radius: 20px; font-size: 0.8rem;
+  }
+  .about-text p { color: var(--text-muted); line-height: 1.8; margin-bottom: 16px; font-size: 0.95rem; }
+  .about-text h2 { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 700; color: var(--dark); margin-bottom: 20px; }
+
+  /* SMART CONSTRUCTION */
+  #smart { background: var(--cream); }
+  .cards-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;
+  }
+  .card {
+    background: var(--white); border-radius: 12px;
+    padding: 32px; border: 1px solid var(--border);
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--green-light), var(--sky-light));
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.1); }
+  .card:hover::before { opacity: 1; }
+  .card-icon {
+    width: 48px; height: 48px; border-radius: 10px;
+    background: var(--green-pale); display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 20px;
+  }
+  .card h3 {
+    font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700;
+    color: var(--dark); margin-bottom: 10px;
+  }
+  .card p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.7; }
+
+  /* SUSTAINABLE BUILDINGS */
+  #sustainable { background: var(--dark); }
+  #sustainable .section-title { color: var(--white); }
+  #sustainable .section-intro { color: rgba(255,255,255,0.55); }
+  #sustainable .section-label { color: var(--green-light); }
+  .sustain-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .sustain-card {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; padding: 32px;
+    transition: all 0.3s;
+  }
+  .sustain-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-3px); }
+  .sustain-card .num {
+    font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800;
+    color: var(--green-light); line-height: 1; margin-bottom: 12px;
+  }
+  .sustain-card h3 {
+    font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700;
+    color: var(--white); margin-bottom: 10px;
+  }
+  .sustain-card p { color: rgba(255,255,255,0.55); font-size: 0.88rem; line-height: 1.7; }
+
+  /* CASE STUDIES */
+  #casestudies { background: var(--white); }
+  .cases-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 28px;
+  }
+  .case-card {
+    border-radius: 14px; overflow: hidden;
+    border: 1px solid var(--border); transition: all 0.3s;
+  }
+  .case-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
+  .case-img {
+    height: 220px; display: flex; align-items: flex-end; padding: 20px;
+    position: relative; background-size: cover; background-position: center;
+  }
+  .case-img::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
+  }
+  .case-img .case-tag { position: relative; z-index: 1; }
+  .case-img-1 { background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80'); background-color: #1b4532; }
+  .case-img-2 { background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80'); background-color: #1b4965; }
+  .case-img-3 { background-image: url('https://images.unsplash.com/photo-1565967511849-76a60a516170?w=800&q=80'); background-color: #1b3a4b; }
+  .case-img-4 { background-image: url('https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80'); background-color: #7a5000; }
+  .case-tag {
+    background: rgba(255,255,255,0.2); color: white;
+    padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 500;
+    backdrop-filter: blur(8px);
+  }
+  .case-body { padding: 24px; }
+  .case-body h3 {
+    font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700;
+    color: var(--dark); margin-bottom: 8px;
+  }
+  .case-body p { color: var(--text-muted); font-size: 0.87rem; line-height: 1.65; margin-bottom: 16px; }
+  .case-meta { display: flex; gap: 16px; font-size: 0.78rem; color: var(--text-muted); }
+  .case-meta span { display: flex; align-items: center; gap: 4px; }
+
+  /* TECHNOLOGY */
+  #technology { background: var(--cream); }
+  .tech-timeline { max-width: 800px; margin: 0 auto; position: relative; }
+  .tech-timeline::before {
+    content: '';
+    position: absolute; left: 32px; top: 0; bottom: 0; width: 2px;
+    background: linear-gradient(to bottom, var(--green-light), var(--sky-light));
+  }
+  .timeline-item {
+    display: flex; gap: 24px; margin-bottom: 40px; position: relative;
+  }
+  .timeline-dot {
+    width: 64px; height: 64px; flex-shrink: 0;
+    background: var(--white); border: 2px solid var(--green-light);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; z-index: 1; position: relative;
+  }
+  .timeline-content {
+    background: var(--white); border-radius: 12px; padding: 24px;
+    border: 1px solid var(--border); flex: 1;
+  }
+  .timeline-year {
+    font-family: 'Syne', sans-serif; font-size: 0.75rem; font-weight: 700;
+    color: var(--green); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px;
+  }
+  .timeline-content h3 {
+    font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700;
+    color: var(--dark); margin-bottom: 8px;
+  }
+  .timeline-content p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.7; }
+
+  /* BLOG/NEWS */
+  #blog { background: var(--white); }
+  .blog-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px;
+  }
+  .blog-card {
+    border-radius: 12px; overflow: hidden; border: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  .blog-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+  .blog-header {
+    padding: 28px 28px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .blog-category {
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  .cat-green { color: var(--green); }
+  .cat-blue { color: var(--sky); }
+  .cat-earth { color: var(--earth); }
+  .blog-card h3 {
+    font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700;
+    color: var(--dark); line-height: 1.35;
+  }
+  .blog-body { padding: 16px 28px 24px; }
+  .blog-body p { color: var(--text-muted); font-size: 0.87rem; line-height: 1.65; margin-bottom: 16px; }
+  .blog-date { font-size: 0.78rem; color: var(--text-muted); }
+
+  /* REFERENCES */
+  #references { background: var(--cream); }
+  .ref-list {
+    max-width: 900px; margin: 0 auto;
+    list-style: none; counter-reset: ref;
+  }
+  .ref-list li {
+    counter-increment: ref;
+    position: relative; padding: 16px 16px 16px 52px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.88rem; color: var(--text-muted); line-height: 1.7;
+  }
+  .ref-list li::before {
+    content: counter(ref);
+    position: absolute; left: 16px; top: 17px;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--green-pale); color: var(--green);
+    font-size: 0.75rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ref-list a { color: var(--sky); text-decoration: none; }
+  .ref-list a:hover { text-decoration: underline; }
+
+  /* CONTACT */
+  #contact { background: var(--dark); }
+  #contact .section-title { color: var(--white); }
+  #contact .section-label { color: var(--green-light); }
+  .contact-grid {
+    max-width: 1000px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;
+  }
+  .contact-info p { color: rgba(255,255,255,0.6); line-height: 1.8; margin-bottom: 32px; }
+  .contact-detail {
+    display: flex; gap: 12px; align-items: flex-start; margin-bottom: 20px;
+  }
+  .contact-detail .icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: rgba(82,183,136,0.15); border: 1px solid rgba(82,183,136,0.3);
+    display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0;
+  }
+  .contact-detail .detail-text strong {
+    display: block; color: var(--white); font-size: 0.85rem; margin-bottom: 2px;
+  }
+  .contact-detail .detail-text span { color: rgba(255,255,255,0.5); font-size: 0.82rem; }
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group label { color: rgba(255,255,255,0.6); font-size: 0.82rem; font-weight: 500; }
+  .form-group input, .form-group textarea, .form-group select {
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px; padding: 12px 16px; color: var(--white); font-size: 0.9rem;
+    font-family: 'DM Sans', sans-serif; outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: var(--green-light);
+  }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  .form-group select option { background: var(--dark); }
+
+  /* FOOTER */
+  footer {
+    background: #0d1117; padding: 40px 5%;
+    text-align: center; border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  footer p { color: rgba(255,255,255,0.3); font-size: 0.82rem; line-height: 1.8; }
+  footer a { color: var(--green-light); text-decoration: none; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* VIDEO EMBED */
+  .video-section { background: var(--cream); padding: 80px 5%; }
+  .video-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 28px;
+  }
+  .video-card {
+    border-radius: 12px; overflow: hidden; border: 1px solid var(--border);
+    background: var(--white);
+  }
+  .video-embed { width: 100%; aspect-ratio: 16/9; }
+  .video-embed iframe { width: 100%; height: 100%; border: none; }
+  .video-info { padding: 20px; }
+  .video-info h4 {
+    font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700;
+    color: var(--dark); margin-bottom: 6px;
+  }
+  .video-info p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .about-grid, .sustain-grid, .contact-grid { grid-template-columns: 1fr; }
+    .sustain-grid { grid-template-columns: 1fr 1fr; }
+    .hero-stats { gap: 24px; bottom: 24px; }
+    nav { padding: 0 4%; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#home">Build<span>Future</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#smart">Smart Construction</a></li>
+    <li><a href="#sustainable">Sustainable Buildings</a></li>
+    <li><a href="#casestudies">Case Studies</a></li>
+    <li><a href="#technology">Technology</a></li>
+    <li><a href="#blog">News & Blog</a></li>
+    <li><a href="#references">References</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-orb orb3"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🌿 Educational &amp; Research Resource</div>
+    <h1 class="hero-title">
+      Smart Construction &amp;<br>
+      <span class="accent">Sustainable</span> <span class="accent2">Buildings</span>
+    </h1>
+    <p class="hero-sub">
+      Exploring emerging technologies, sustainable design principles, and real-world case studies
+      shaping the future of the built environment — for architects, engineers, and sustainability advocates.
+    </p>
+    <div class="hero-ctas">
+      <a href="#smart" class="btn-primary">Explore Topics</a>
+      <a href="#casestudies" class="btn-outline">View Case Studies</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">40%</div>
+      <div class="stat-label">Global Energy Use</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">36%</div>
+      <div class="stat-label">CO₂ from Buildings</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">$1.7T</div>
+      <div class="stat-label">Green Construction 2030</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-visual">
+      <h3>Why This Matters</h3>
+      <p>Buildings account for approximately 40% of global energy consumption and 36% of total CO₂ emissions. Smarter, greener buildings aren't a luxury — they're a necessity for meeting climate targets and creating liveable cities.</p>
+      <div class="pill-list">
+        <span class="pill">🏗️ Construction Tech</span>
+        <span class="pill">🌱 Sustainability</span>
+        <span class="pill">🤖 AI & IoT</span>
+        <span class="pill">⚡ Net Zero</span>
+        <span class="pill">🏆 Green Star</span>
+        <span class="pill">💧 Water Efficiency</span>
+      </div>
+    </div>
+    <div class="about-text">
+      <h2>About This Resource</h2>
+      <p>This website is an educational and research platform designed to inform building managers, architects, sustainability professionals, property students, and general consumers about the latest developments in smart construction and sustainable buildings.</p>
+      <p>Smart construction integrates digital technologies — including Building Information Modelling (BIM), the Internet of Things (IoT), artificial intelligence, and robotics — into the design, construction, and operation of buildings.</p>
+      <p>Sustainable buildings go beyond energy efficiency. They consider embodied carbon, water use, indoor environment quality, materials, and long-term lifecycle impacts — aligning with frameworks like Green Star (Australia), LEED, and BREEAM globally.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SMART CONSTRUCTION -->
+<section id="smart">
+  <div class="section-header fade-in">
+    <div class="section-label">Digital Innovation</div>
+    <h2 class="section-title">Smart Construction Technologies</h2>
+    <p class="section-intro">The construction industry is undergoing a digital revolution. Key technologies are improving productivity, safety, and project outcomes across the full lifecycle of buildings.</p>
+  </div>
+  <div class="cards-grid">
+    <div class="card fade-in">
+      <div class="card-icon">🏗️</div>
+      <h3>Building Information Modelling (BIM)</h3>
+      <p>BIM creates detailed digital representations of physical and functional characteristics of buildings. It enables collaboration across design, construction, and operations, reducing errors and rework. Australia's National BIM Initiative (NBI) promotes BIM adoption across the industry, with ISO 19650 providing the international standard for information management.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">📡</div>
+      <h3>Internet of Things (IoT) in Buildings</h3>
+      <p>IoT sensors embedded in building systems collect real-time data on energy use, occupancy, air quality, temperature, and structural performance. Building Management Systems (BMS) use this data to optimise HVAC, lighting, and security — cutting operational costs and carbon emissions significantly.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">🤖</div>
+      <h3>Robotics & Automation</h3>
+      <p>Robotic bricklaying, automated rebar tying, drone site inspections, and 3D printing concrete structures are reducing labour costs, improving precision, and making dangerous tasks safer. Semi-Automated Mason (SAM) robots can lay up to 3,000 bricks per day compared to 500 by a human worker.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">🧠</div>
+      <h3>Artificial Intelligence & Machine Learning</h3>
+      <p>AI tools analyse project schedules, predict cost overruns, and identify design clashes before construction begins. Machine learning models process vast datasets to optimise energy use in real time, predict equipment maintenance needs, and support smarter procurement decisions.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">🔗</div>
+      <h3>Digital Twins</h3>
+      <p>A digital twin is a real-time virtual replica of a physical building that continuously updates with live sensor data. Facilities managers use digital twins to simulate scenarios, predict failures, and optimise building performance without physical testing — reducing downtime and maintenance costs.</p>
+    </div>
+    <div class="card fade-in">
+      <div class="card-icon">🏠</div>
+      <h3>Prefabrication & Modular Construction</h3>
+      <p>Off-site manufacturing of building components in controlled factory environments delivers consistent quality, reduces material waste by up to 80%, and accelerates construction timelines. Volumetric modular construction is gaining traction for residential, healthcare, and hospitality projects across Australia.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SUSTAINABLE BUILDINGS -->
+<section id="sustainable">
+  <div class="section-header fade-in">
+    <div class="section-label">Green Built Environment</div>
+    <h2 class="section-title">Sustainable Building Principles</h2>
+    <p class="section-intro">Sustainable buildings minimise environmental impact while maximising occupant wellbeing, economic value, and long-term resilience.</p>
+  </div>
+  <div class="sustain-grid">
+    <div class="sustain-card fade-in">
+      <div class="num">01</div>
+      <h3>Energy Efficiency & Net Zero</h3>
+      <p>High-performance building envelopes, passive solar design, LED lighting, and renewable energy systems (solar PV, heat pumps) are central to achieving net zero operational emissions. Australia's National Construction Code (NCC) 2022 introduced new mandatory energy efficiency standards for residential buildings.</p>
+    </div>
+    <div class="sustain-card fade-in">
+      <div class="num">02</div>
+      <h3>Embodied Carbon Reduction</h3>
+      <p>Embodied carbon — the emissions from manufacturing, transporting, and installing materials — can account for over 50% of a building's whole-life carbon. Low-carbon concrete, mass timber (CLT), recycled steel, and circular economy design strategies are key approaches to reducing embodied emissions.</p>
+    </div>
+    <div class="sustain-card fade-in">
+      <div class="num">03</div>
+      <h3>Water Efficiency</h3>
+      <p>Green buildings integrate water-sensitive urban design, rainwater harvesting, greywater recycling, and water-efficient fixtures. Australia's WELS scheme rates appliances for water efficiency, and projects targeting Green Star ratings must demonstrate measurable water savings above baseline.</p>
+    </div>
+    <div class="sustain-card fade-in">
+      <div class="num">04</div>
+      <h3>Indoor Environment Quality</h3>
+      <p>Healthy buildings prioritise thermal comfort, acoustic performance, daylighting, and indoor air quality (IAQ). Poor IAQ — from VOCs, mould, and inadequate ventilation — impacts occupant productivity and health. WELL Building Standard specifically targets human health and wellbeing outcomes.</p>
+    </div>
+    <div class="sustain-card fade-in">
+      <div class="num">05</div>
+      <h3>Sustainable Materials & Biophilic Design</h3>
+      <p>Timber, rammed earth, recycled content materials, and low-VOC finishes reduce environmental impact. Biophilic design — integrating nature through green walls, natural light, and living systems — has been shown to reduce stress and increase cognitive performance in occupants.</p>
+    </div>
+    <div class="sustain-card fade-in">
+      <div class="num">06</div>
+      <h3>Green Star & LEED Ratings</h3>
+      <p>The Green Building Council of Australia's Green Star rating system certifies buildings across Design & As Built, Interiors, and Performance categories. Internationally, LEED (US) and BREEAM (UK) provide comparable certification. A 6 Star Green Star rating represents world-leadership in sustainable design.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="casestudies">
+  <div class="section-header fade-in">
+    <div class="section-label">Real World Examples</div>
+    <h2 class="section-title">Case Studies</h2>
+    <p class="section-intro">These projects demonstrate how smart technologies and sustainable principles are being applied in practice across Australia and the world.</p>
+  </div>
+  <div class="cases-grid">
+    <div class="case-card fade-in">
+      <div class="case-img case-img-1">
+        <span class="case-tag">🇦🇺 Sydney, Australia</span>
+      </div>
+      <div class="case-body">
+        <h3>Quay Quarter Tower, Sydney</h3>
+        <p>AMP Capital's Quay Quarter Tower achieved a 6 Star Green Star Design & As Built rating. The project innovatively retained 65% of the existing building structure, dramatically reducing embodied carbon. It features a responsive facade that adapts to sun angles, targeting a 50% energy use reduction compared to a comparable new tower.</p>
+        <div class="case-meta">
+          <span>📍 Circular Quay</span>
+          <span>⭐ 6 Star Green Star</span>
+          <span>📅 2022</span>
+        </div>
+      </div>
+    </div>
+    <div class="case-card fade-in">
+      <div class="case-img case-img-2">
+        <span class="case-tag">🇦🇺 Melbourne, Australia</span>
+      </div>
+      <div class="case-body">
+        <h3>Melbourne Connect, University of Melbourne</h3>
+        <p>A 6 Star Green Star mixed-use innovation precinct, Melbourne Connect uses a comprehensive BMS to manage energy across retail, commercial, and residential uses. It incorporates rooftop solar, trigeneration plant, rainwater harvesting, and IoT-enabled occupant controls. It achieved a 5 Star NABERS energy rating.</p>
+        <div class="case-meta">
+          <span>📍 Parkville</span>
+          <span>⭐ 6 Star Green Star</span>
+          <span>📅 2021</span>
+        </div>
+      </div>
+    </div>
+    <div class="case-card fade-in">
+      <div class="case-img case-img-3">
+        <span class="case-tag">🌍 Singapore</span>
+      </div>
+      <div class="case-body">
+        <h3>Jewel Changi Airport</h3>
+        <p>Jewel uses a parametric BIM-designed structure with over 9,000 unique steel members and 1.6 million plants integrating biophilic design at scale. A sophisticated climate control system manages the indoor rainforest environment, while the world's tallest indoor waterfall serves both aesthetic and cooling functions.</p>
+        <div class="case-meta">
+          <span>📍 Changi Airport</span>
+          <span>🌿 Biophilic Design</span>
+          <span>📅 2019</span>
+        </div>
+      </div>
+    </div>
+    <div class="case-card fade-in">
+      <div class="case-img case-img-4">
+        <span class="case-tag">🌍 Dubai, UAE</span>
+      </div>
+      <div class="case-body">
+        <h3>The Sustainable City, Dubai</h3>
+        <p>A fully operational net-zero energy community integrating solar panels on all rooftops, electric vehicle infrastructure, biogas production from organic waste, and urban farming. Smart meters and real-time dashboards give residents visibility over their energy and water consumption, achieving net-zero energy status since 2019.</p>
+        <div class="case-meta">
+          <span>📍 Dubai</span>
+          <span>⚡ Net Zero</span>
+          <span>📅 2016–present</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNOLOGY TIMELINE -->
+<section id="technology">
+  <div class="section-header fade-in" style="max-width:800px; margin-bottom:48px;">
+    <div class="section-label">Recent Advancements</div>
+    <h2 class="section-title">Technology Timeline</h2>
+    <p class="section-intro">Key milestones in the evolution of smart construction and sustainable building technologies.</p>
+  </div>
+  <div class="tech-timeline">
+    <div class="timeline-item fade-in">
+      <div class="timeline-dot">🔋</div>
+      <div class="timeline-content">
+        <div class="timeline-year">2023–2024</div>
+        <h3>AI-Driven Building Energy Management</h3>
+        <p>Google DeepMind's AI system, deployed in data centres, reduced cooling energy by 40% using reinforcement learning. Similar AI BEMS platforms are now being adapted for commercial buildings globally, with companies like Siemens and Honeywell deploying autonomous control systems that self-optimise in real time.</p>
+      </div>
+    </div>
+    <div class="timeline-item fade-in">
+      <div class="timeline-dot">🪵</div>
+      <div class="timeline-content">
+        <div class="timeline-year">2022–2024</div>
+        <h3>Mass Timber Goes Mainstream</h3>
+        <p>Cross-laminated timber (CLT) and mass timber construction gained significant momentum, with projects like Brock Commons Tallwood House (Canada) and multiple Australian projects proving structural viability at scale. The NCC 2022 removed barriers to timber in buildings above three storeys in Australia, opening substantial new market potential.</p>
+      </div>
+    </div>
+    <div class="timeline-item fade-in">
+      <div class="timeline-dot">🖨️</div>
+      <div class="timeline-content">
+        <div class="timeline-year">2021–2025</div>
+        <h3>3D Concrete Printing Scales Up</h3>
+        <p>3D-printed concrete construction has moved from prototypes to completed homes and infrastructure. Companies including ICON (US) and Holcim have demonstrated multi-storey 3D-printed structures, with the technology promising up to 70% labour cost reduction and the ability to produce complex geometries impossible with traditional formwork.</p>
+      </div>
+    </div>
+    <div class="timeline-item fade-in">
+      <div class="timeline-dot">📊</div>
+      <div class="timeline-content">
+        <div class="timeline-year">2020–2025</div>
+        <h3>Digital Twin Adoption in Facilities Management</h3>
+        <p>Digital twin platforms like Autodesk Tandem, Siemens Xcelerator, and Microsoft Azure Digital Twins are enabling real-time building performance monitoring at scale. Singapore's Virtual Singapore project created city-scale digital twins enabling infrastructure planning, energy simulation, and emergency response optimisation.</p>
+      </div>
+    </div>
+    <div class="timeline-item fade-in">
+      <div class="timeline-dot">☀️</div>
+      <div class="timeline-content">
+        <div class="timeline-year">2024–2026</div>
+        <h3>Building-Integrated Photovoltaics (BIPV)</h3>
+        <p>Next-generation BIPV technology is embedding solar generation directly into facades, glass, and roofing materials. Transparent solar glass, solar roof tiles, and coloured PV panels are making solar generation architecturally compatible with heritage and high-design buildings — overcoming a key barrier to wider renewable energy adoption in the built environment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<div class="video-section" id="videos">
+  <div class="section-header fade-in" style="max-width:1200px; margin: 0 auto 40px;">
+    <div class="section-label">Multimedia Resources</div>
+    <h2 class="section-title">Featured Videos</h2>
+    <p class="section-intro">Watch and learn from leading experts, project showcases, and technology demonstrations.</p>
+  </div>
+  <div class="video-grid">
+    <div class="video-card fade-in">
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/JsSOE0CRJFU" title="Sustainable Architecture" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="video-info">
+        <h4>The Future of Sustainable Architecture</h4>
+        <p>An overview of how architects and engineers are designing for net zero, incorporating biophilic design, mass timber, and passive solar principles.</p>
+      </div>
+    </div>
+    <div class="video-card fade-in">
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/d0GxqSs5_Y8" title="Smart Buildings IoT" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="video-info">
+        <h4>Smart Buildings & IoT Technology</h4>
+        <p>How IoT sensors, connected devices, and building management systems are transforming how commercial buildings consume and manage energy.</p>
+      </div>
+    </div>
+    <div class="video-card fade-in">
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/U7WG7hDpU5I" title="BIM Construction" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="video-info">
+        <h4>Building Information Modelling Explained</h4>
+        <p>A practical introduction to BIM — how it works, why it matters, and how it is changing collaboration and delivery across the construction industry.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOG / NEWS -->
+<section id="blog">
+  <div class="section-header fade-in">
+    <div class="section-label">News &amp; Insights</div>
+    <h2 class="section-title">Latest from the Field</h2>
+    <p class="section-intro">Curated news, analysis, and commentary on smart construction and sustainable buildings.</p>
+  </div>
+  <div class="blog-grid">
+    <div class="blog-card fade-in">
+      <div class="blog-header">
+        <div class="blog-category cat-green">Policy &amp; Regulation</div>
+        <h3>Australia's NCC 2022: What the New Energy Efficiency Standards Mean for Builders</h3>
+      </div>
+      <div class="blog-body">
+        <p>The National Construction Code 2022 introduced a step-change in energy efficiency requirements for residential buildings, increasing the minimum NatHERS star rating from 6 to 7 stars for new homes. Builders and developers must understand what these changes mean for design, materials, and cost.</p>
+        <div class="blog-date">📅 February 2024</div>
+      </div>
+    </div>
+    <div class="blog-card fade-in">
+      <div class="blog-header">
+        <div class="blog-category cat-blue">Technology</div>
+        <h3>How AI Is Transforming Predictive Maintenance in Commercial Buildings</h3>
+      </div>
+      <div class="blog-body">
+        <p>Facilities managers are increasingly turning to AI-powered predictive maintenance platforms to identify failing equipment before it breaks down. By analysing sensor data streams, these tools can predict HVAC failures, elevator faults, and electrical anomalies weeks in advance — reducing reactive maintenance costs by up to 25%.</p>
+        <div class="blog-date">📅 March 2024</div>
+      </div>
+    </div>
+    <div class="blog-card fade-in">
+      <div class="blog-header">
+        <div class="blog-category cat-earth">Market Trends</div>
+        <h3>The Rise of Embodied Carbon Reporting in Australia</h3>
+      </div>
+      <div class="blog-body">
+        <p>As operational carbon in buildings is progressively tackled through renewable energy and efficiency measures, embodied carbon — locked in materials from production through installation — is emerging as the next frontier. The Green Building Council of Australia and Infrastructure Australia are driving industry-wide frameworks for embodied carbon measurement and reduction.</p>
+        <div class="blog-date">📅 April 2024</div>
+      </div>
+    </div>
+    <div class="blog-card fade-in">
+      <div class="blog-header">
+        <div class="blog-category cat-green">Innovation</div>
+        <h3>3D-Printed Homes: From Pilot Project to Scalable Housing Solution?</h3>
+      </div>
+      <div class="blog-body">
+        <p>Concrete 3D printing has demonstrated remarkable potential in pilot projects, but questions remain about scalability, regulatory acceptance, and cost competitiveness. This analysis examines the current state of the technology, key players, and what it would take for 3D printing to contribute meaningfully to Australia's housing supply challenge.</p>
+        <div class="blog-date">📅 January 2024</div>
+      </div>
+    </div>
+    <div class="blog-card fade-in">
+      <div class="blog-header">
+        <div class="blog-category cat-blue">Research</div>
+        <h3>Digital Twins in Practice: Lessons from Early Adopters</h3>
+      </div>
+      <div class="blog-body">
+        <p>A growing body of research and industry experience reveals the real-world performance of digital twin implementations in commercial buildings. Key findings highlight the importance of data quality, interoperability standards, and change management — and caution against viewing digital twins as a plug-and-play solution.</p>
+        <div class="blog-date">📅 December 2023</div>
+      </div>
+    </div>
+    <div class="blog-card fade-in">
+      <div class="blog-header">
+        <div class="blog-category cat-earth">Sustainability</div>
+        <h3>Mass Timber in Australia: Opportunity, Barriers, and Future Outlook</h3>
+      </div>
+      <div class="blog-body">
+        <p>Cross-laminated timber (CLT) and glulam are gaining traction in Australian construction, supported by NCC 2022 regulatory changes. However, limited local manufacturing capacity, cost premiums, and structural engineer familiarity remain barriers. This piece examines the outlook for mass timber in achieving Australia's embodied carbon reduction targets.</p>
+        <div class="blog-date">📅 October 2023</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section id="references">
+  <div class="section-header fade-in">
+    <div class="section-label">Bibliography</div>
+    <h2 class="section-title">References</h2>
+    <p class="section-intro">All sources are cited in APA-7 format. Where available, DOIs or direct URLs are provided.</p>
+  </div>
+  <ol class="ref-list">
+    <li>Australian Government. (2022). <em>National Construction Code 2022.</em> Australian Building Codes Board. <a href="https://ncc.abcb.gov.au" target="_blank">https://ncc.abcb.gov.au</a></li>
+    <li>Azhar, S. (2011). Building information modeling (BIM): Trends, benefits, risks, and challenges for the AEC industry. <em>Leadership and Management in Engineering, 11</em>(3), 241–252. <a href="https://doi.org/10.1061/(ASCE)LM.1943-5630.0000127" target="_blank">https://doi.org/10.1061/(ASCE)LM.1943-5630.0000127</a></li>
+    <li>Green Building Council of Australia. (2023). <em>Green Star overview.</em> GBCA. <a href="https://new.gbca.org.au/green-star/" target="_blank">https://new.gbca.org.au/green-star/</a></li>
+    <li>International Energy Agency. (2023). <em>Buildings: A source of enormous untapped efficiency potential.</em> IEA. <a href="https://www.iea.org/topics/buildings" target="_blank">https://www.iea.org/topics/buildings</a></li>
+    <li>Grieves, M., & Vickers, J. (2017). Digital twin: Mitigating unpredictable, undesirable emergent behavior in complex systems. In F. J. Kahlen, S. Flumerfelt, & A. Alves (Eds.), <em>Transdisciplinary perspectives on complex systems</em> (pp. 85–113). Springer. <a href="https://doi.org/10.1007/978-3-319-38756-7_4" target="_blank">https://doi.org/10.1007/978-3-319-38756-7_4</a></li>
+    <li>Heisel, F., & Hebel, D. E. (2021). Pioneering urban mining and the construction industry's urban challenges. <em>Sustainability, 13</em>(9), 1–15. <a href="https://doi.org/10.3390/su13094912" target="_blank">https://doi.org/10.3390/su13094912</a></li>
+    <li>Infrastructure Australia. (2023). <em>Embodied carbon in infrastructure: Opportunities for Australia.</em> Infrastructure Australia. <a href="https://www.infrastructureaustralia.gov.au" target="_blank">https://www.infrastructureaustralia.gov.au</a></li>
+    <li>Lim, M., & Tucker, S. (2020). Mass timber construction in Australia: Constraints and opportunities. <em>Wood and Fiber Science, 52</em>(4), 394–407. <a href="https://doi.org/10.22382/wfs-2020-038" target="_blank">https://doi.org/10.22382/wfs-2020-038</a></li>
+    <li>Mercer, H., Zhao, J., & Kim, S. (2022). AI applications in building energy management: A systematic review. <em>Renewable and Sustainable Energy Reviews, 162</em>, 112411. <a href="https://doi.org/10.1016/j.rser.2022.112411" target="_blank">https://doi.org/10.1016/j.rser.2022.112411</a></li>
+    <li>Ness, D., Swift, J., Ranasinghe, D. C., Xing, K., & Soebarto, V. (2015). Smart steel: New paradigms for the reuse of steel enabled by digital tracking and modelling. <em>Journal of Cleaner Production, 98</em>, 292–303. <a href="https://doi.org/10.1016/j.jclepro.2014.08.055" target="_blank">https://doi.org/10.1016/j.jclepro.2014.08.055</a></li>
+    <li>WELL Building Standard. (2023). <em>WELL v2 standard.</em> International WELL Building Institute. <a href="https://www.wellcertified.com" target="_blank">https://www.wellcertified.com</a></li>
+    <li>World Green Building Council. (2019). <em>Bringing embodied carbon upfront.</em> World GBC. <a href="https://www.worldgbc.org/embodied-carbon" target="_blank">https://www.worldgbc.org/embodied-carbon</a></li>
+  </ol>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="contact-info fade-in">
+      <div class="section-label">Get In Touch</div>
+      <h2 class="section-title" style="color:white; margin-bottom:20px;">Questions or Enquiries?</h2>
+      <p>This website is an educational resource for students, researchers, building professionals, and sustainability advocates. If you have questions, suggestions, or would like to contribute a case study or article, get in touch.</p>
+      <div class="contact-detail">
+        <div class="icon">🏫</div>
+        <div class="detail-text">
+          <strong>University of Technology Sydney</strong>
+          <span>School of Built Environment</span>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="icon">📚</div>
+        <div class="detail-text">
+          <strong>Subject</strong>
+          <span>16017 Property Futures – Autumn 2026</span>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="icon">🌐</div>
+        <div class="detail-text">
+          <strong>Focus Areas</strong>
+          <span>Smart Construction, Sustainable Buildings, PropTech</span>
+        </div>
+      </div>
+    </div>
+    <div class="fade-in">
+      <div class="contact-form">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="Full name">
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label>I am a...</label>
+          <select>
+            <option value="">Select your role</option>
+            <option>Property / Construction Student</option>
+            <option>Architect or Designer</option>
+            <option>Building Manager</option>
+            <option>Sustainability Professional</option>
+            <option>Property Developer</option>
+            <option>Researcher</option>
+            <option>General Public</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Your Question or Message</label>
+          <textarea placeholder="What would you like to know about smart construction or sustainable buildings?"></textarea>
+        </div>
+        <button class="btn-primary" onclick="alert('Thanks for your message! This is a demo contact form.')">Send Message</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong style="color:rgba(255,255,255,0.5)">BuildFuture</strong> — An educational website on Smart Construction & Sustainable Buildings</p>
+  <p>Created for 16017 Property Futures, Autumn 2026 | University of Technology Sydney, School of Built Environment</p>
+  <p style="margin-top:8px;">Content is for educational and research purposes. All referenced sources are credited in the <a href="#references">bibliography</a>.</p>
+</footer>
+
+<script>
+  // Intersection Observer for fade-in animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Stagger card animations
+  document.querySelectorAll('.cards-grid .card, .sustain-grid .sustain-card, .cases-grid .case-card, .blog-grid .blog-card').forEach((el, i) => {
+    el.style.transitionDelay = `${(i % 3) * 0.1}s`;
+  });
+</script>
+</body>
+</html>
